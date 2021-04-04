@@ -1,4 +1,4 @@
-pragma solidity ^0.4.24;
+pragma solidity ^0.5.1;
 
 contract Messenger {
     address owner;
@@ -17,7 +17,7 @@ contract Messenger {
         return messages.length;
     }
 
-    function getMessage(uint index) view public returns(string) {
+    function getMessage(uint index) view public returns(string memory) {
         return messages[index];
     }
 } 
