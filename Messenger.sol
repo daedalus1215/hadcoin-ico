@@ -8,16 +8,16 @@ contract Messenger {
         owner = msg.sender;
     }
 
-    function add(string newMessage) public {
-        require(msg.sender == owner);
+    function add(string memory newMessage) public {
+        require(owner == msg.sender);
         messages.push(newMessage);
     }
 
-    function count() view public returns(uint) {
+    function count() view public returns(uint){
         return messages.length;
     }
 
     function getMessage(uint index) view public returns(string memory) {
         return messages[index];
     }
-} 
+}
