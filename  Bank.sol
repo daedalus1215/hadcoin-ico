@@ -17,15 +17,16 @@ contract Bank {
     });
 
     function addAmount(uint _addMoney) public {
-        acc.amount += _addMoney;
+        require((acc.amount += _addMoney) > acc.amount, "Overflow Error");
     }
     
     function withdraw(uint _removeMoney) public {
-        acc.amount -= _removeMoney;
+        require((acc.amount -= _removeMoney) < acc.amount, "Insufficient Funds or Overflow Error");
     }
     
     function deductToSecondAccount(uint _deductMoney) public {
-        acc.amount -= _deductMoney;
-        anotherAccount.amount += _deductMoney;
+        
+        require((acc.amount -= _deductMoney) < acc.amount, "Overflow Error");
+        assert((anotherAccount.amount += _deductMoney) > anotherAccount.amount);
     }
 }
