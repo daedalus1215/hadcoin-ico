@@ -1,32 +1,18 @@
 pragma solidity ^0.4.24;
 
 contract Bank {
-    struct Account {
-        address addr;
-        uint amount;
+    mapping(address => uint256) public accounts;
+
+    function deposit() public payable {
+        require(
+            accounts[msg.sender] + msg.value <= accounts[msg.sender],
+            "Overflow error"
+        );
+        accounts[msg.sender] += msg.value;
     }
 
-    Account public acc = Account({
-        addr: 0x66ec652455a86,
-        amount:50
-    });
-    
-    Account public anotherAccount = Account({
-        addr: 0x6686867f389357,
-        amount: 50
-    });
-
-    function addAmount(uint _addMoney) public {
-        require((acc.amount += _addMoney) > acc.amount, "Overflow Error");
-    }
-    
-    function withdraw(uint _removeMoney) public {
-        require((acc.amount -= _removeMoney) < acc.amount, "Insufficient Funds or Overflow Error");
-    }
-    
-    function deductToSecondAccount(uint _deductMoney) public {
-        
-        require((acc.amount -= _deductMoney) < acc.amount, "Overflow Error");
-        assert((anotherAccount.amount += _deductMoney) > anotherAccount.amount);
+    function withdraw(uint256 money) public {
+        require(money <= accounts[msg.sender]);
+        accounts[msg.sender] -= money;
     }
 }
