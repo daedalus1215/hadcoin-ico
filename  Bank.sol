@@ -4,15 +4,18 @@ contract Bank {
     mapping(address => uint256) public accounts;
 
     function deposit() public payable {
-        require(
-            accounts[msg.sender] + msg.value <= accounts[msg.sender],
-            "Overflow error"
-        );
+        if(accounts[msg.sender] + msg.value >= accounts[msg.sender]) {
+            revert("Overflow error");
+    }
         accounts[msg.sender] += msg.value;
     }
 
     function withdraw(uint256 money) public {
-        require(money <= accounts[msg.sender]);
+        
+        if(money <= accounts[msg.sender]) {
+            // can have more if statements
+            revert();
+        }
         accounts[msg.sender] -= money;
     }
 }
